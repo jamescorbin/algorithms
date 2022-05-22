@@ -1,4 +1,4 @@
-def pallindromic_radii(s: str) -> str:
+def palindromic_radii(s: str) -> str:
     dummy = "|"
     ss = dummy.join([c for c in s])
     n = len(ss)
@@ -46,4 +46,4 @@ def pallindromic_radii(s: str) -> str:
 
 if __name__=="__main__":
     s = "cbbd"
-    print(pallindromic_radii(s))
+    print(palindromic_radii(s))

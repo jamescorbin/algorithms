@@ -38,6 +38,40 @@ def countPS(s: str):
                             dp[i + 1][j] - dp[i + 1][j - 1])
     return dp[0][n - 1]
 
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        # apply Manacher's Algorithm
+        s_ext = "|".join([c for c in s])
+        radii = [0 for x in s_ext]
+        center = 0
+        radius = 0
+        while center < len(s_ext):
+            while (
+                    (center - (radius + 1) >= 0)
+                    and (center + (radius + 1) < len(s_ext))
+                    and (s_ext[center - (radius + 1)] == s_ext[center + (radius + 1)])):
+                radius += 1
+            radii[center] = radius
+            c0 = center
+            r0 = radius
+            center += 1
+            radius = 0
+            while (center <= c0 + r0):
+                c_max = c0 - (center - c0)
+                r_max = r0 - (center - c0)
+                if (radii[c_max] < r_max):
+                    radii[center] = radii[c_max]
+                    center += 1
+                elif (radii[c_max] > r_max):
+                    radii[center] = r_max
+                    center += 1
+                else:
+                    radius = r_max
+                    break
+        odds = sum([x // 2 + 1 for x in radii[::2]])
+        evens = sum([(x + 1) // 2 for x in radii[1::2]])
+        return odds + evens
+
 
 # Driver Code
 if __name__ == "__main__":
